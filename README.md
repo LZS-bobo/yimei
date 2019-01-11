@@ -291,9 +291,9 @@ sign为数据有效性签名，MD5（game\_order_sn + money + status + createtim
 
 [游戏登录服务端]携带相关的参数请求此接口； [平台 SDK服务器]接收并判断用户是否是真实登录，并返回相应的信息。
 
-### 请求地址举例（get请求）
+### 请求地址举例（get请求）地址请联系对接人员
 
-http://www.api.com/api.php?m=public&a=checklogin2&username=abc123&sign=abc123wews123 &time=142345612
+http://url/api.php?m=public&a=checklogin2&username=abc123&sign=abc123wews123 &time=142345612
 
 ### 请求参数
 
