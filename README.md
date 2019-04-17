@@ -8,8 +8,6 @@
 * [2.2 Demo接入流程] (#2.2)
 * [2.3 登录、注册模块] (#2.3)
 * [2.4 充值模块] (#2.4)
-* [3 服务端充值结果异步通知] (#3)
-* [5 角色升级上报] (#5)
 * [6 聊天上报] (#6.1)
 * [6 正式版接入] (#6)
 * [7 竖屏游戏须知] (#7)
@@ -255,112 +253,6 @@ game_server_id:(NSString *)game_server_id
       
 ```
 
-
-<h3 id="3">3 服务端充值结果异步通知</h3>
-
-请在收到充值回调结果后，获取相应的充值提示语，返回给充值玩家。
-使用get请求通知游戏商玩家的充值结果
-
-例子：
-
-订单号4200BN3\*\*1调用参数game_order_sn=4200B\*\*\*81
-
-money=100 单位为分
-
-status =1
-
-msg= ‘充值成功’
-
-username = asdfkafj(用户在平台平台的唯一标识)
-
-
-createtime=1379\*\*\*\*20
-
-ext=123456  （扩展参数）
-
-sign为数据有效性签名，MD5（game\_order_sn + money + status + createtime + key），输出
-
-32位全小写字母，其中key是约定的密匙（注：“+”号为合并意思，不包含在被加密的字符串中）
-
-
-游戏方收到平台服务端的回调通知并且处理成功，则返回success；处理失败，则返回fail
-
-<h3 id='4.1'>4-1.登录验证</h3>
-
-### 接口说明
-
-[游戏登录服务端]携带相关的参数请求此接口； [平台 SDK服务器]接收并判断用户是否是真实登录，并返回相应的信息。
-
-### 请求地址举例（get请求）地址请联系对接人员
-
-http://url/api.php?m=public&a=checklogin2&username=abc123&sign=abc123wews123 &time=142345612
-
-### 请求参数
-
-|参数名        |  类型    |说明             |
-|:----------- |:-------- |:---------------:|
-|  username   |  string  |  用户的唯一标识（用户登录成功，sdk会返回给游戏方这个参数）    |    
-|  sign       |  string  |  md5(username + time + KEY)这里传递的md5字串为小写字母, KEY是表示平台平台和游戏方双方提前协商约定好的登录密钥;加号不参与签名   |  
-|  time       |  int     |  Unix时间戳 (当前请求时间)  |    
- 
-### 返回内容（json）
-
-```
-{
-“err”: int,			// 错误码：0-登录成功, 其他失败
-
-“errMsg”: string,	       // 错误信息描述
-}
-```
-
-
-
-<h3 id="5">5 角色升级上报</h3>
-
-* 注意：区服名称和区服id都传创角时的数据（尤其合区过后调用此接口的时候）
-* 角色创建上报接口
-
-```objc
-/**
- 角色升级上报接口
-
- @param gameId 游戏id
- @param server_name 区服名称
- @param server_id 区服id
- @param role_name 角色名
- @param role_id 角色id
- @param level 等级
- @param create_role_time 角色创建时间 时间戳
- @param completion 上报回调 error: 0->成功, 其他失败  info:信息描述
- */
-- (void)upgradeWithGameId:(NSInteger)gameId
-              server_name:(NSString *)server_name
-                server_id:(NSString *)server_id
-                role_name:(NSString *)role_name
-                  role_id:(NSString *)role_id
-                    level:(NSInteger)level
-                    create_role_time:(NSTimeInterval)create_role_time
-               completion:(void (^)(NSInteger error, NSString *info))completion;
-```
-
-* 角色升级上报Example
-
-```objc
- [[KXYXSDKManager sharedVOneSDK] upgradeWithGameId:1
-                                          server_name:self.role_server_name.text
-                                            server_id:self.role_server_id.text
-                                            role_name:self.role_name.text
-                                              role_id:self.role_id.text
-                                                level:3 create_role_time:1504664530
-                                           completion:^(NSInteger error, NSString *info) {
-                                               if (error) {
-                                                   //创建角色失败
-                                               } else {
-                                                   //成功
-                                               }
-                                               NSLog(@"升级 error = %ld, info = %@", (long)error, info);
-                                           }];
-```
 
 <h3 id="6.1">5 聊天上报</h3>
 
