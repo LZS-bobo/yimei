@@ -264,7 +264,7 @@ NSLog(@"失败==%ld", (long)failcode);
 
 ```objc
 /**
-角色升级上报接口
+角色创建上报接口
 
 @param gameId 游戏id
 @param server_name 区服名称
